@@ -1,0 +1,71 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package hw3circles;
+
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+
+/**
+ *
+ * @author carolinebloch
+ */
+public class HW3Circles extends Application {
+    
+    @Override
+    public void start(Stage primaryStage) {
+        Circle c1 = new Circle ();
+        int x = (int)(Math.random()*250 + 25);
+        int y = (int)(Math.random()*250 + 25);
+        c1.setCenterX(x);
+        c1.setCenterY(y);
+        c1.setRadius(15);
+        
+        Circle c2 = new Circle ();
+        int a = (int)(Math.random()*250 + 25);
+        int b = (int)(Math.random()*250 + 25);
+        c2.setCenterX(a);
+        c2.setCenterY(b);
+        c2.setRadius(15);
+        
+        Line l1 = new Line (x,y,a,b);
+        int xdistance = Math.abs(x-a);
+        int ydistance = Math.abs(y-b);
+        double add = (Math.pow(xdistance,2))+ (Math.pow(ydistance,2));
+        int distance = (int)(Math.sqrt(add));
+        String answer = String.valueOf(distance);
+        int xmidpoint = (x+a)/2;
+        int ymidpoint = (y+b)/2;
+        
+        
+        Text t1 = new Text(xmidpoint,ymidpoint,answer);
+        
+        Pane root = new Pane();
+        root.getChildren().addAll(c1,c2,l1,t1);
+        
+        Scene scene = new Scene(root, 300, 300);
+        
+        primaryStage.setTitle("Hello World!");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        launch(args);
+    }
+    
+}
