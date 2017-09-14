@@ -1,0 +1,74 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package sketchhw;
+
+import javafx.application.Application;
+import static javafx.application.Application.launch;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Line;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+
+public class SketchHW extends Application {
+    int x = 250;
+    int y = 250;
+    Pane root = new Pane();
+     @Override
+    public void start(Stage primaryStage) {
+        
+        //root.getChildren().add(txt);
+        
+        Scene scene = new Scene(root, 500, 500);
+        
+        primaryStage.setTitle("Etcha-sketch");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+        root.requestFocus();
+        
+        root.setOnKeyPressed(e ->{
+           switch (e.getCode()){
+               case UP: Up(); break;
+               case DOWN:Down(); break;
+               case LEFT:Left(); break;
+               case RIGHT:Right(); break;
+           } 
+           
+        });  
+    }
+
+      private void Up() {
+            root.getChildren().add(new Line (x,y,x,y-5));
+            y = y-5;
+        }
+      
+       private void Down() {
+            root.getChildren().add(new Line (x,y,x,y+5));
+            y = y+5;
+        }
+
+        private void Left() {
+            root.getChildren().add(new Line (x,y,x-5,y));
+            x = x-5;
+        }
+
+         private void Right() {
+            root.getChildren().add(new Line (x,y,x+5,y));
+            x = x+5;
+        }
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        launch(args);
+    }
+    
+}
