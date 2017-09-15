@@ -1,0 +1,99 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package lab1;
+
+import java.util.Scanner;
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+
+/**
+ *
+ * @author carolinebloch
+ */
+public class Lab1 extends Application {
+    
+    @Override
+    public void start(Stage primaryStage) {
+        Scanner scan = new Scanner (System.in);
+        
+        System.out.println("Enter coordinates, height, and width of Rectangle 1:");
+        double x1 = scan.nextDouble();
+        double y1 = scan.nextDouble();
+        double w1 = scan.nextDouble();
+        double h1 = scan.nextDouble();
+        
+        Rectangle rect1 = new Rectangle(x1,y1,w1,h1);
+        rect1.setFill(Color.TRANSPARENT);
+        rect1.setStroke(Color.BLACK);
+        
+        System.out.println("Enter coordinates, height, and width of Rectangle 2:");
+        double x2 = scan.nextDouble();
+        double y2 = scan.nextDouble();
+        double w2 = scan.nextDouble();
+        double h2 = scan.nextDouble();
+        
+        Rectangle rect2 = new Rectangle(x2,y2,w2,h2);
+        rect2.setFill(Color.TRANSPARENT);
+        rect2.setStroke(Color.BLACK);
+        
+        
+        Pane root = new Pane();
+        String a = "";
+       
+        if (contains(rect1,rect2) || contains(rect2, rect1))
+            a = "One rectangle is contained in another";
+	else if (overlaps(rect1, rect2))
+            a = "The rectangles overlap";
+	else
+            a = "The rectangles do not overlap";
+        
+        Text answer = new Text(75,240,a);
+        
+        root.getChildren().addAll(rect1,rect2,answer);
+        
+        Scene scene = new Scene(root,300,250);
+        
+        primaryStage.setTitle("Geometry: two rectangles");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+    
+    public boolean contains(Rectangle r1, Rectangle r2) {
+        boolean b;
+        if (r2.getY() + r2.getHeight() <= r1.getY() + r1.getHeight() && r2.getX() + r2.getWidth() <= r1.getX() + r1.getWidth() && r2.getX() > r1.getX() && r2.getY() > r1.getY())
+            b = true;
+        else
+            b = false;
+        return b;
+    }
+
+    public boolean overlaps(Rectangle r1, Rectangle r2) {
+        boolean b;
+	if (getDistance(r1.getX(), r2.getX() + r2.getWidth()) < r1.getWidth() + r2.getWidth() && getDistance(r1.getY(), r2.getY() + r2.getHeight()) <r1.getHeight() + r2.getHeight())
+            b = true;
+        else
+            b = false;
+        return b;
+	}
+        
+    private double getDistance(double point1, double point2) {
+        return Math.sqrt(Math.pow(point2 - point1, 2));
+	}
+    
+}
