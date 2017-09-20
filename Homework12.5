@@ -1,0 +1,36 @@
+import java.util.Scanner;
+
+public class Homework125 {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Scanner scan = new Scanner (System.in);
+		boolean b = false;
+		System.out.println("Enter three triangle side lengths:");
+		while (b == false) {
+			double s1 = scan.nextDouble();
+			double s2 = scan.nextDouble();
+			double s3 = scan.nextDouble();
+			try {
+				Triangle t = new Triangle (s1,s2,s3);
+				b = true;
+				System.out.print("Congrats! You made a proper triangle.");
+			}
+			catch (IllegalTriangleException ex){
+				System.out.print(ex.getMessage());
+			}
+		}
+	}
+	static class Triangle {
+		Triangle (double side1, double side2, double side3) throws IllegalTriangleException{
+			if (side1 + side2 <= side3 || side1 + side3 <= side2 || side2 + side3 <= side1)
+				throw new IllegalTriangleException();	
+		}
+	}
+	static class IllegalTriangleException extends Exception {
+		IllegalTriangleException ()
+		{
+			super("/**Construct a tirangle with the specified sides */");
+		}
+	}
+}
