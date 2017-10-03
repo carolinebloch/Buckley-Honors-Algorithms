@@ -1,0 +1,76 @@
+import java.util.Arrays;
+
+public class GenericStackHomework {
+
+	public static void main(String[] args) {
+		GenericStack<String> stack1 = new GenericStack<>();
+
+		System.out.println("Stack1 size before adding elements: "  + stack1.getSize());
+		stack1.push("London");
+		stack1.push("Paris");
+		stack1.push("LA");
+		stack1.pop();
+		System.out.println(stack1);
+		System.out.println("Stack1 size after adding elements: " + stack1.getSize());
+
+		GenericStack<Integer> stack2 = new GenericStack<>();
+
+		stack2.push(2);
+		stack2.push(-9);
+		System.out.println("\n" + stack2.peek());
+		stack2.push(21);
+		System.out.println(stack2.pop());
+		stack2.push(29);
+		System.out.println(stack2);
+		System.out.println("Stack2 size: " + stack2.getSize());
+	}
+}
+
+class GenericStack<E>{
+	private int last = 10;
+	private E[] arr = (E[]) new Object[last];
+	int size;
+
+	public GenericStack() {}
+
+	public int getSize() {return size;}
+
+	public E peek() {
+		if (size == 0)
+			return null;
+		else
+			return arr[size - 1];
+	}
+	
+	public E pop() {
+		if (size == 0)
+			return null;
+		return arr[--size];	
+	}
+	
+	public void push(E o) {
+		arr[size++] = o;
+		if (size == last) {
+			E[] temp = (E[]) new Object[last *= 2];
+			System.arraycopy(arr, 0, temp, arr.length, last);
+			arr = temp;
+		}
+	}
+	
+	public boolean isEmpty() {return size == 0;}
+	
+	public String toString () {
+		String s = "[";
+		for (int r = 0; r<size; r++)
+		{
+			s += (arr[r] + " ");
+//			if (arr[r] == null) {
+//				E[] temp = (E[]) new Object[r];
+//				System.arraycopy(arr, 0, temp, 0, r );
+//				arr = temp;
+//			}
+		}
+		
+		return "Stack: " + s + "]";}
+}
+
