@@ -1,0 +1,41 @@
+import java.util.Stack;
+
+public class BalancedParenthesis {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		String a = "{[()]}";
+		String b = "{[(])}";
+		String c = "{{[[(())]]}}";
+		String d = "}{}{()[})]";
+		System.out.println(checkBalance(a));
+		System.out.println(checkBalance(b));
+		System.out.println(checkBalance(c));
+		System.out.println(checkBalance(d));
+	}
+
+	public static boolean checkBalance (String paren) {
+		Stack <Character> s = new Stack<>();
+		for (int i = 0; i < paren.length(); i++) 
+		{
+
+			char ch = paren.charAt(i);
+
+			if (paren.length() % 2 != 0) return false;
+
+			if (paren.charAt(0) == ']' || paren.charAt(0) == '}' || paren.charAt(0) == ')') return false;
+
+			if (ch == '[' || ch == '(' || ch == '{') s.push(ch);
+
+			else if ((ch == ']' || ch == '}' || ch == ')') && (!s.isEmpty())) 
+			{
+				if ((s.peek() == '(' && ch == ')' ) || (s.peek() == '{' && ch == '}') || (s.peek() == '[' && ch == ']')) s.pop();
+
+				else return false;
+			} 
+		}
+		if (s.isEmpty()) return true;
+
+		return false;
+	}
+}
