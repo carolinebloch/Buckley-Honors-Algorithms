@@ -1,0 +1,33 @@
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class Occurrences {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+		Map <Integer, Integer> map = new HashMap<>();
+		int n;
+		System.out.println("Enter integers: ");
+		Scanner scan = new Scanner (System.in);
+
+		while ((n = scan.nextInt()) != 0)
+		{
+			if(!map.containsKey(n)) 
+				map.put(n,1);
+			else 
+				map.put(n, map.get(n)+1);
+		}
+
+		int max = Collections.max(map.values());
+		for(int x: map.keySet())
+		{
+			if (map.get(x) == max)
+				System.out.println(x);
+		}
+
+	}
+
+}
