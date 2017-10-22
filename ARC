@@ -1,0 +1,72 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package arcpal;
+
+import javafx.animation.PathTransition;
+import javafx.animation.PathTransition.OrientationType;
+import javafx.animation.Timeline;
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Arc;
+import javafx.scene.shape.Circle;
+import javafx.stage.Stage;
+import javafx.util.Duration;
+
+/**
+ *
+ * @author carolinebloch
+ */
+public class ArcPal extends Application {
+    
+    @Override
+    public void start(Stage primaryStage) {
+       
+        Pane root = new Pane();
+        
+        Arc a = new Arc (200, 160, 100, 20, 180, 180);
+        a.setFill(Color.TRANSPARENT);
+        a.setStroke(Color.PINK);
+        
+        Circle c = new Circle(a.getCenterX() - a.getRadiusX(), a.getCenterY(), 10);
+        c.setFill(Color.AQUA);
+        
+        root.getChildren().addAll(c, a);
+        
+        PathTransition path = new PathTransition();
+        path.setDuration(Duration.millis(1000));
+        path.setPath(a);
+        path.setNode(c);
+        path.setOrientation(OrientationType.NONE);
+        path.setCycleCount(Timeline.INDEFINITE);
+        path.setAutoReverse(true);
+        path.play();
+        
+         
+        Scene scene = new Scene(root, 400, 400);
+        
+        scene.setOnMousePressed(e -> path.pause());
+        scene.setOnMouseReleased(e -> path.play());
+        
+        
+        primaryStage.setTitle("Arc");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        launch(args);
+    }
+    
+}
