@@ -1,0 +1,35 @@
+import java.util.Scanner;
+
+public class CowSignal {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+		Scanner scan = new Scanner (System.in);
+		int m = scan.nextInt();
+		int n = scan.nextInt();
+		int k = scan.nextInt();
+		scan.nextLine();
+		System.out.println("");
+
+		for(int x = 0; x < m; x++) 
+		{
+			String hold = scan.nextLine();
+			
+			for (int c = 0; c < k; c ++) 
+			{
+				for(int j = 0; j < n; j++) 
+				{
+					for (int i = 0; i < k; i++) 
+					{
+						System.out.print(hold.charAt(j));
+					}
+				}
+				System.out.println("");
+			}
+
+		}
+
+	}
+
+}
