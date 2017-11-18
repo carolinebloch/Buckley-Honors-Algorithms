@@ -30,7 +30,7 @@ import javafx.stage.Stage;
  */
 public class HalfLines extends Application {
     BorderPane root = new BorderPane();
-    int num;
+    
     @Override
     public void start(Stage primaryStage) {
         
@@ -56,27 +56,20 @@ public class HalfLines extends Application {
       
        root.setBottom(hb);
        BorderPane.setAlignment(hb,Pos.CENTER);
-       
-       //root.getChildren().addAll(line1);
-
         
         Scene scene = new Scene(root, 1000, 1000);
         
         submit.setOnAction(new EventHandler<ActionEvent> () {
             @Override
             public void handle(ActionEvent e) {
+                int num;
                 if ((textField.getText() != null && !textField.getText().isEmpty())) {
-                    num = scan.nextInt();
+                    num = Integer.parseInt(textField.getText());
+                    
+                hl(M,num,len,true);
+                }
             }
-            }
-        
-        }
-        
-        );
-//        if (num % 2 == 0) b = false;
-//        if (num % 2 == 1) b = true;
-        
-        hl(M,num,len,true);
+        });
         
         primaryStage.setTitle("Half Lines");
         primaryStage.setScene(scene);
@@ -87,28 +80,28 @@ public class HalfLines extends Application {
     {
         if (depth == 0) return;
         
-        else if (orientation = true)
+        if (orientation == true)
         {
             Line l1 = new Line (midpoint.getX() - (length/2),midpoint.getY(),midpoint.getX() + (length/2),midpoint.getY());
             root.getChildren().add(l1);
             Point2D midpoint2 = new Point2D(l1.getStartX(), l1.getStartY());
             Point2D midpoint3 = new Point2D(l1.getEndX(), l1.getEndY());
-            length = (l1.getEndX() - l1.getStartX())/2;
-            depth -= 1;
+            length = length/2;
+            depth--;
             hl(midpoint2, depth,length, false);
-            hl(midpoint2, depth,length, false);
+            hl(midpoint3, depth,length, false);
         }
         
-        else if (orientation = false)
+        if (orientation == false)
         {
-            Line l1 = new Line (midpoint.getX(),midpoint.getY() - (length/2),midpoint.getX(),midpoint.getY() + (length/2));
-            root.getChildren().add(l1);
-            Point2D midpoint2 = new Point2D(l1.getStartX(), l1.getStartY());
-            Point2D midpoint3 = new Point2D(l1.getEndX(), l1.getEndY());
-            length = (l1.getEndY() - l1.getStartY())/2;
-            depth -= 1;
-            hl(midpoint2, depth,length, true);
-            hl(midpoint2, depth,length, true);
+            Line l2 = new Line (midpoint.getX(),midpoint.getY() - (length/2),midpoint.getX(),midpoint.getY() + (length/2));
+            root.getChildren().add(l2);
+            Point2D midpoint4 = new Point2D(l2.getStartX(), l2.getStartY());
+            Point2D midpoint5 = new Point2D(l2.getEndX(), l2.getEndY());
+            length = length/2;
+            depth--;
+            hl(midpoint4, depth,length, true);
+            hl(midpoint5, depth,length, true);
         }
     }
 
