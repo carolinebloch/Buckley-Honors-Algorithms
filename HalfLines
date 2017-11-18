@@ -5,12 +5,19 @@
  */
 package halflines;
 
+import java.util.Scanner;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Line;
@@ -22,80 +29,87 @@ import javafx.stage.Stage;
  * @author carolinebloch
  */
 public class HalfLines extends Application {
-    Pane root = new Pane();
+    BorderPane root = new BorderPane();
+    int num;
     @Override
     public void start(Stage primaryStage) {
         
-       Line line1 = new Line (372,500,628,500);
+       Line line1 = new Line (372,350,628,350);
        
-       Point2D A = new Point2D(372,500); 
-       Point2D B = new Point2D(628,500); 
+       Point2D M = new Point2D(500,350);
        
-       root.getChildren().add(line1);
+       Scanner scan = new Scanner (System.in);
        
-       hl(A,B,4,2);
+       double len = line1.getEndX() - line1.getStartX();
+       
+       Label label1 = new Label("Enter Order:");
+       TextField textField = new TextField ();
+       
+       HBox hb = new HBox();
+       hb.getChildren().addAll(label1, textField);
+       hb.setAlignment(Pos.BOTTOM_CENTER);
+       hb.setPadding(new Insets(15, 12, 15, 12));
+       hb.setSpacing(10);
+       
+       Button submit = new Button("Submit");
+       hb.getChildren().addAll(submit);
+      
+       root.setBottom(hb);
+       BorderPane.setAlignment(hb,Pos.CENTER);
+       
+       //root.getChildren().addAll(line1);
+
         
         Scene scene = new Scene(root, 1000, 1000);
+        
+        submit.setOnAction(new EventHandler<ActionEvent> () {
+            @Override
+            public void handle(ActionEvent e) {
+                if ((textField.getText() != null && !textField.getText().isEmpty())) {
+                    num = scan.nextInt();
+            }
+            }
+        
+        }
+        
+        );
+//        if (num % 2 == 0) b = false;
+//        if (num % 2 == 1) b = true;
+        
+        hl(M,num,len,true);
         
         primaryStage.setTitle("Half Lines");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
     
-    void hl (Point2D A, Point2D B, int depth, int count)
+    void hl (Point2D midpoint, int depth, double length, boolean orientation)
     {
-//        int count = 1;
-        if (count > depth) return;
-        Point2D a = new Point2D (0,0);
-        Point2D b = new Point2D (0,0);
-        Polygon polly = new Polygon();
-        double length = 0;
-         if(B.getX() - A.getX() == 0)
-         {
-            length = B.getY() - A.getY();
-            length = length/2;
-         }
-         else if(B.getY() - A.getY() == 0)
-         {
-             length = B.getX() - A.getX();
-             length = length/2;
-         }
-         if (count % 2 == 0)
-         {
-          a.add(A.getX(), A.getY() - length);
-          b.add(A.getX(), A.getY() + length);  
-          
-          polly.getPoints().addAll(a.getX(),a.getY(),b.getX(),b.getY());
-          
-          a.add(B.getX(), B.getY() - length);
-          b.add(B.getX(), B.getY() + length);  
-          
-          polly.getPoints().addAll(a.getX(),a.getY(),b.getX(),b.getY());
-      
-//         Line l1 = new Line (A.getX(), A.getY() - (length/2),A.getX(),A.getY() + (length/2));
-//         Line l2 = new Line (B.getX(), B.getY() - (length/2),B.getX(),B.getY() + (length/2));
-         }
-         else if (count % 2 != 0)
-         {   
-         a.add(A.getX() - length, A.getY());
-         b.add(A.getX() + length, A.getY());
-         
-         polly.getPoints().addAll(a.getX(),a.getY(),b.getX(),b.getY());
-         
-         a.add(B.getX() - length, B.getY());
-         b.add(B.getX() + length, B.getY());
-         
-         polly.getPoints().addAll(a.getX(),a.getY(),b.getX(),b.getY());
-         
-//         Line l1 = new Line (A.getX() - (length/2), A.getY(),A.getX() + (length/2),A.getY());
-//         Line l2 = new Line (B.getX() - (length/2), B.getY(),B.getX() + (length/2),B.getY());
-         }
-         
-         root.getChildren().add(polly);
-         
-         
-         
-         hl(a,b,depth,count+1);
+        if (depth == 0) return;
+        
+        else if (orientation = true)
+        {
+            Line l1 = new Line (midpoint.getX() - (length/2),midpoint.getY(),midpoint.getX() + (length/2),midpoint.getY());
+            root.getChildren().add(l1);
+            Point2D midpoint2 = new Point2D(l1.getStartX(), l1.getStartY());
+            Point2D midpoint3 = new Point2D(l1.getEndX(), l1.getEndY());
+            length = (l1.getEndX() - l1.getStartX())/2;
+            depth -= 1;
+            hl(midpoint2, depth,length, false);
+            hl(midpoint2, depth,length, false);
+        }
+        
+        else if (orientation = false)
+        {
+            Line l1 = new Line (midpoint.getX(),midpoint.getY() - (length/2),midpoint.getX(),midpoint.getY() + (length/2));
+            root.getChildren().add(l1);
+            Point2D midpoint2 = new Point2D(l1.getStartX(), l1.getStartY());
+            Point2D midpoint3 = new Point2D(l1.getEndX(), l1.getEndY());
+            length = (l1.getEndY() - l1.getStartY())/2;
+            depth -= 1;
+            hl(midpoint2, depth,length, true);
+            hl(midpoint2, depth,length, true);
+        }
     }
 
     /**
