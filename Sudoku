@@ -1,0 +1,168 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package sudoku;
+
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+
+/**
+ *
+ * @author carolinebloch
+ */
+public class Sudoku extends Application {
+    static int[][] a = new int[9][9]; /*{{0, 0, 	0, 0, 0, 0, 0, 0, 0},
+				 		{0, 0, 	0, 0, 0, 0, 0, 0, 0},
+				 		{0, 0, 	0, 0, 0, 0, 0, 0, 0},
+				 		{0, 0, 	0, 0, 0, 0, 0, 0, 0},
+				 		{0, 0, 	0, 0, 0, 0, 0, 0, 0},
+				 		{0, 0, 	0, 0, 0, 0, 0, 0, 0},
+				 		{0, 0, 	0, 0, 0, 0, 0, 0, 0},
+				 		{0, 0, 	0, 0, 0, 0, 0, 0, 0},
+				 		{0, 0, 	0, 0, 0, 0, 0, 0, 0}};*/
+    		
+                
+        static Pane root = new Pane();
+    
+    @Override
+    public void start(Stage primaryStage) {
+
+
+        
+        for(int i = 0; i < 9; i++)
+        {
+            for (int j = 0; j < 9; j ++)
+            {
+                TextField tf = new TextField ();
+                tf.setLayoutX(i*40);
+                tf.setLayoutY(j*40);
+                tf.setPrefWidth(40);
+                root.getChildren().add(tf);
+            }
+        }
+        
+        Button solve = new Button("Solve");
+        solve.setLayoutX(160);
+        solve.setLayoutY(350);
+        
+        root.getChildren().addAll(solve);
+        
+         solve.setOnAction(new EventHandler<ActionEvent> () {
+            @Override
+            public void handle(ActionEvent e) {
+                int count = 0;
+                for(int i = 0; i < 9; i++)
+                {
+                     for (int j = 0; j < 9; j ++)
+                     {
+                         
+                         TextField tf2 = (TextField)root.getChildren().get(count++);
+                         if (tf2.getText().length() != 0)
+                         {
+                             a[i][j] = Integer.parseInt(tf2.getText());
+                         }
+                     }
+                }
+                System.out.println("Before:");
+		printArr();
+		solve();
+		System.out.println("\nAfter:");
+		printArr();
+            }
+        });
+        
+        
+        Scene scene = new Scene(root);
+        
+        primaryStage.setTitle("Sudoku");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+   
+   
+	static void printArr() {
+            root.getChildren().clear();
+		 for(int i = 0; i < 9; i++)
+        {
+            for (int j = 0; j < 9; j ++)
+            {
+                String x = a[i][j] + "";
+                TextField tf = new TextField (x);
+                tf.setLayoutX(i*40);
+                tf.setLayoutY(j*40);
+                tf.setPrefWidth(40);
+                root.getChildren().add(tf);
+            }
+        }
+	}
+
+	static boolean solve() {
+		// find first free cell
+		boolean found = false;
+		int I = -1, J = -1;
+		for (int i = 0; i < a.length && !found; i++) {
+			for (int j = 0; j < a[i].length && !found; j++) {
+				if (a[i][j] == 0) {
+					found = true;
+					I = i;
+					J = j;
+				}
+			}
+		}
+		if (!found) return true; // solved!!!
+		
+		for (int num = 1; num <= 9; num++) {
+			if (isOk(num, I, J)) {
+				a[I][J] = num;
+				if (solve()) return true;
+                a[I][J] = 0;
+			}
+		}
+		
+		return false;
+	}
+	
+	static boolean isOk(int num, int I, int J) {
+        // check row
+		for (int j = 0; j < a.length; j++) {
+			if (j != J) {
+				if (a[I][j] == num) 
+					return false;
+			}
+		}
+        // check column
+		for (int i = 0; i < a.length; i++) {
+			if (i != I) {
+				if (a[i][J] == num)
+					return false;
+			}
+		}
+        // check square
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				int currI = I / 3 * 3 + i;
+				int currJ = J / 3 * 3 + j;
+				if (I != currI && J != currJ && a[currI][currJ] == num) 
+					return false;
+			}
+		}
+		return true;
+	}
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        launch(args);
+    }
+    
+}
