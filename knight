@@ -43,19 +43,21 @@ public class BFS2 {
 			System.out.print("(" + from.i + "," + from.j + ") -> ");
 			Cell next = new Cell(from.i, from.j);
 
-			if (from.i > 0 && a[from.i - 1][from.j] >= 0)
-				next = new Cell(from.i - 1, from.j);
+			if (from.i > 0 && a[from.i - 1][from.j] >= 0) {
+				//if (a[next.i][next.j] > a[from.i - 1][from.j])
+					next = new Cell(from.i - 1, from.j);
+			}
 
 			if (from.i < a.length - 1 && a[from.i + 1][from.j] >= 0) {
-				if (a[next.i][next.j] > a[from.i + 1][from.j])
+				//if (a[next.i][next.j] > a[from.i + 1][from.j])
 					next = new Cell(from.i + 1, from.j);
 			}
 			if (from.j > 0 && a[from.i][from.j - 1] >= 0) {
-				if (a[next.i][next.j] > a[from.i][from.j - 1])
+				//if (a[next.i][next.j] > a[from.i][from.j - 1])
 					next = new Cell(from.i, from.j - 1);
 			}
 			if (from.j < a[0].length - 1 && a[from.i][from.j + 1] >= 0) {
-				if (a[next.i][next.j] > a[from.i][from.j + 1])
+				//if (a[next.i][next.j] > a[from.i][from.j + 1])
 					next = new Cell(from.i, from.j + 1);
 			}
 			from = next;
@@ -115,6 +117,7 @@ public class BFS2 {
 		Queue<Cell> queue = new LinkedList<>();
 		queue.offer(new Cell(startI, startJ));
 		a[startI][startJ] = 0;
+		//ArrayList <Integer> [][] hold = new ArrayList <Integer> ();
 		while (!queue.isEmpty()) {
 			Cell from = queue.poll();
 
@@ -122,52 +125,68 @@ public class BFS2 {
 				return a[endI][endJ];
 
 			//up right
-			if (endI < startI && endJ > startJ && from.i > 1 && a[from.i - 1][from.j] == -1 && a[from.i - 2][from.j] == -1 && a[from.i - 2][from.j+1] == -1) {
+			if (endI < startI && endJ > startJ && from.i > 2 && from.j < a.length-1 && a[from.i - 1][from.j] == -1 && a[from.i - 2][from.j] == -1 && a[from.i - 2][from.j+1] == -1) {
 				a[from.i - 2][from.j+1] = a[from.i-2][from.j+1] + 1;
+				a[from.i - 1][from.j] = a[from.i-1][from.j] + 1;
+				a[from.i - 2][from.j] = a[from.i-2][from.j] + 1;
 				queue.offer(new Cell(from.i - 2, from.j+1));
 			}
 
 
 			//up left
-			if (endI < startI && endJ < startJ && from.i > 1 && a[from.i - 1][from.j] == -1 && a[from.i - 2][from.j] == -1 && a[from.i - 2][from.j-1] == -1) {
+			if (endI < startI && endJ < startJ && from.i > 2 && from.j < 0 && a[from.i - 1][from.j] == -1 && a[from.i - 2][from.j] == -1 && a[from.i - 2][from.j-1] == -1) {
 				a[from.i - 2][from.j-1] = a[from.i-3][from.j-1] + 1;
+				a[from.i - 1][from.j] = a[from.i-1][from.j] + 1;
+				a[from.i - 2][from.j] = a[from.i-2][from.j] + 1;
 				queue.offer(new Cell(from.i - 2, from.j-1));
 			}
 
 
 			//down right
-			if (endI > startI && endJ > startJ && from.i < a.length - 2 && a[from.i + 1][from.j] == -1 && a[from.i + 2][from.j] == -1 && a[from.i + 2][from.j+1] == -1) {
+			if (endI > startI && endJ > startJ && from.i < a.length - 2 && from.j < a.length-1 && a[from.i + 1][from.j] == -1 && a[from.i + 2][from.j] == -1 && a[from.i + 2][from.j+1] == -1) {
 				a[from.i + 2][from.j+1] = a[from.i+2][from.j+1] + 1;
+				a[from.i + 1][from.j] = a[from.i+1][from.j] + 1;
+				a[from.i + 2][from.j] = a[from.i+2][from.j] + 1;
 				queue.offer(new Cell(from.i + 2, from.j+1));
 			}
 			
 			//down left
-			if (endI > startI && endJ < startJ && from.i < a.length - 2 && a[from.i + 1][from.j] == -1 && a[from.i + 2][from.j] == -1 && a[from.i + 2][from.j-1] == -1) {
+			if (endI > startI && endJ < startJ && from.i < a.length - 2 && from.j > 0 && a[from.i + 1][from.j] == -1 && a[from.i + 2][from.j] == -1 && a[from.i + 2][from.j-1] == -1) {
 				a[from.i + 2][from.j-1] = a[from.i+2][from.j-1] + 1;
+				a[from.i + 1][from.j] = a[from.i+1][from.j] + 1;
+				a[from.i + 2][from.j] = a[from.i+2][from.j] + 1;
 				queue.offer(new Cell(from.i + 2, from.j-1));
 			}
 
 			//left up
-			if (endJ < startJ && endI < startI && from.j > 1 && a[from.i][from.j - 1] == -1 && a[from.i][from.j - 2] == -1 && a[from.i - 1][from.j-2] == -1) {
+			if (endJ < startJ && endI < startI && from.j > 2 && from.i > 0 && a[from.i][from.j - 1] == -1 && a[from.i][from.j - 2] == -1 && a[from.i - 1][from.j-2] == -1) {
 				a[from.i-1][from.j - 2] = a[from.i-1][from.j-2] + 1;
+				a[from.i][from.j-1] = a[from.i][from.j-1] + 1;
+				a[from.i][from.j-2] = a[from.i][from.j-2] + 1;
 				queue.offer(new Cell(from.i-1, from.j - 2));
 			}
 			
 			//left down
-			if (endJ < startJ && endI > startI && from.j > 1 && a[from.i][from.j - 1] == -1 && a[from.i][from.j - 2] == -1 && a[from.i + 1][from.j-2] == -1) {
+			if (endJ < startJ && endI > startI && from.j > 2 && from.i < a.length -1 && a[from.i][from.j - 1] == -1 && a[from.i][from.j - 2] == -1 && a[from.i + 1][from.j-2] == -1) {
 				a[from.i+1][from.j - 2] = a[from.i+1][from.j-2] + 1;
+				a[from.i][from.j-1] = a[from.i][from.j-1] + 1;
+				a[from.i][from.j-2] = a[from.i][from.j-2] + 1;
 				queue.offer(new Cell(from.i+1, from.j - 2));
 			}
 
 			//right up
-			if (endJ > startJ && endI < startI && from.j < a.length-1 && a[from.i][from.j + 1] == -1 && a[from.i][from.j + 2] == -1 && a[from.i - 1][from.j+2] == -1) {
+			if (endJ > startJ && endI < startI && from.j > a.length-2 && from.i > 0 && a[from.i][from.j + 1] == -1 && a[from.i][from.j + 2] == -1 && a[from.i - 1][from.j+2] == -1) {
 				a[from.i-1][from.j + 2] = a[from.i-1][from.j+2] + 1;
+				a[from.i][from.j+1] = a[from.i][from.j+1] + 1;
+				a[from.i][from.j+2] = a[from.i][from.j+2] + 1;
 				queue.offer(new Cell(from.i-1, from.j + 2));
 			}
 			
 			//right down
-			if (endJ > startJ && endI > startI && from.j < a.length-1 && a[from.i][from.j + 1] == -1 && a[from.i][from.j + 2] == -1 && a[from.i + 1][from.j+2] == -1) {
+			if (endJ > startJ && endI > startI && from.j < a.length-2 && from.i < a.length -1 && a[from.i][from.j + 1] == -1 && a[from.i][from.j + 2] == -1 && a[from.i + 1][from.j+2] == -1) {
 				a[from.i+1][from.j + 2] = a[from.i+1][from.j+2] + 1;
+				a[from.i][from.j+1] = a[from.i][from.j+1] + 1;
+				a[from.i][from.j+2] = a[from.i][from.j+2] + 1;
 				queue.offer(new Cell(from.i+1, from.j + 2));
 			}
 		}
