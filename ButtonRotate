@@ -1,0 +1,95 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package rotatingbutton;
+
+import javafx.animation.RotateTransition;
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+import javafx.util.Duration;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.animation.Animation;
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
+
+/**
+ *
+ * @author carolinebloch
+ */
+public class RotatingButton extends Application {
+  
+    int count = 2;
+
+    
+    @Override
+    public void start(Stage primaryStage) {
+        Button btn = new Button();
+        btn.setText("Rotate");
+             StackPane root = new StackPane();
+        root.getChildren().add(btn);  
+        RotateTransition rt  = new RotateTransition(Duration.millis(1000), btn);
+        rt.setCycleCount(Animation.INDEFINITE);
+        rt.setByAngle(360);
+        
+        new Thread(() -> {
+            while (true){
+                Platform.runLater(() -> {
+                    btn.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent event){
+                        if (count % 2 == 0)
+                        { 
+                            btn.setOnMouseClicked(e -> rt.play());
+                            count++;
+                        }    
+                        
+                        else
+                        {
+                           btn.setOnMouseClicked(e -> rt.stop());
+                           count++;
+                        }
+                            }
+                            });
+                    
+                });
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException ex) {
+                    
+                }
+            }
+        }).start();
+        
+      
+   
+        
+        Scene scene = new Scene(root, 300, 250);
+        
+        primaryStage.setTitle("Hello World!");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+        primaryStage.setOnCloseRequest (e -> {
+        Platform.exit();
+        System.exit(0);
+        });
+        
+        }
+
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        launch(args);
+    }
+    
+}
