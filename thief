@@ -1,0 +1,71 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package knapsackthief;
+
+/**
+ *
+ * @author carolinebloch
+ */
+public class KnapsackThief {
+
+    
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        // TODO code application logic here
+        
+        int num = 10;
+        int size = 7;
+        int wt [] = {4,2,3,5,5,6,9,7,8,10};
+        int val [] = {22,20,15,30,24,54,21,32,18,25};
+
+        
+        System.out.print("Max: " + thief(num-1, size, wt, val));
+        
+       
+        
+    
+}
+
+    
+    static int thief (int count, int size, int wt[], int val[])
+    {
+        int items [][] = new int[count+1][size+1];
+        int take = 0;
+        int leave = 0;
+    
+        if(items[count][size] != 0)
+        {
+            return items[count][size];
+        }
+        
+        if (count == 0)
+        {
+            if (wt[0] <= size)
+            {
+                items[count][size] = val[0];
+                return val[0];
+            }
+            else
+            {
+                items[count][size] = 0;
+                return 0;
+            }
+        }
+        
+        if (wt[count] <= size)
+        {
+            take = val[count] + thief(count-1, size-wt[count], wt, val);
+        }
+        
+        leave = thief(count-1, size, wt, val);
+        
+        items[count][size] = Math.max(take,leave);
+        
+        return items[count][size];
+    }
+}
