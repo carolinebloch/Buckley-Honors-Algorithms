@@ -1,0 +1,13 @@
+public int countLeftNodes() {return countLeftNodes(root);}
+    
+    private int countLeftNodes(TreeNode<E> curr){
+        int x = 0;
+        
+        if (curr == null)return -1;
+        
+        if(curr.left != null) x += 1 + countLeftNodes(curr.left);
+        
+        if(curr.right != null) x += countLeftNodes(curr.right);
+        
+        return x;
+    }
