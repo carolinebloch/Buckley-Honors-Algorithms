@@ -1,0 +1,13 @@
+public boolean delete (E x)
+    {
+     int index = -1;
+     for (int j = 0; j < data.length; j++)
+         if (x.equals(data[j])) index = j;
+     if (index != -1)
+     {
+         data[index] = data[--size];
+         percolateDown();
+         return true;
+     }
+     return false;
+    }
