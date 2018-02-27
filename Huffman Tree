@@ -1,0 +1,21 @@
+static String decode(HuffmanTree huffTree, String code)
+    {
+    String out = "";
+    HuffmanTree.HuffmanTreeNode c = huffTree.root;
+    for (int i=0; i<code.length(); i++) 
+    {
+      if (code.charAt(i) == '0') 
+	c = c.left;
+      else 
+	c = c.right;
+
+      if (c != null) 
+      {
+	out = out + c.ch;
+	c = huffTree.root;
+      }
+    
+    }   
+    return out;
+    }
+	
