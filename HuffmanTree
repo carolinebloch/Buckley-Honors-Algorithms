@@ -1,0 +1,29 @@
+ObjectInputStream in = new ObjectInputStream(new FileInputStream("hw.huff"));
+                String hold = in.readUTF();
+                HuffmanTree wait = (HuffmanTree) in.readObject();
+                in.close();
+                System.out.println(decode(wait, hold));
+
+static String decode(HuffmanTree huffTree, String code)
+    {
+    String out = "";
+    HuffmanTree.HuffmanTreeNode c = huffTree.root;
+    for (int i=0; i<code.length(); i++) 
+    {
+      if (code.charAt(i) == '0') 
+	c = c.left;
+      else 
+	c = c.right;
+
+      if (c.left == null & c.right == null) 
+      {
+	out = out + c.ch;
+	c = huffTree.root;
+      }
+    
+    }   
+    return out;
+    }
+	
+	
+Algorithm (noun.) Word used by programmers when... they do not want to explain what they did.
