@@ -1,0 +1,26 @@
+static void bfs (int from, ArrayList<Integer>[] adj)
+    {
+        boolean visit[] = new boolean[adj.length];
+        int i, e;
+        LinkedList<Integer> q = new LinkedList<Integer>();
+        ArrayList<Integer> end = new ArrayList<Integer>();
+        visit[from] = true;
+        q.add(from);
+        while(!q.isEmpty())
+        {
+            e = q.poll();
+            i = e;
+            System.out.print(i + ", ");
+            while (i <= adj.length)
+            {
+                if (visit[i] == false)
+                {
+                    end.add(i);
+                    visit[i] = true;
+                }
+                 i++;
+            }
+        }
+        System.out.print(end);
+        
+    }
