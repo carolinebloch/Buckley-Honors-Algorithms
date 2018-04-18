@@ -1,26 +1,29 @@
-static void bfs (int from, ArrayList<Integer>[] adj)
+    static ArrayList<Integer> bfs (int from, ArrayList<Integer>[] adj)
     {
-        boolean visit[] = new boolean[adj.length];
-        int i, e;
+        ArrayList<Integer> search = new ArrayList<>();
+        int [] a = new int[adj.length];
+        for (int i = 0; i < a.length; i ++)
+            a[i] = -1;
+     
+        boolean isVisited[] = new boolean[adj.length];
         LinkedList<Integer> q = new LinkedList<Integer>();
-        ArrayList<Integer> end = new ArrayList<Integer>();
-        visit[from] = true;
-        q.add(from);
+        q.offer(from);
+        isVisited[from] = true;
+        
         while(!q.isEmpty())
         {
-            e = q.poll();
-            i = e;
-            System.out.print(i + ", ");
-            while (i <= adj.length)
+            int e = q.poll();
+            search.add(e);
+            for(int to: adj[e])
             {
-                if (visit[i] == false)
+                if (!isVisited[to])
                 {
-                    end.add(i);
-                    visit[i] = true;
+                    q.offer(to);
+                    a[to] = e;
+                    isVisited[to] = true;
                 }
-                 i++;
             }
-        }
-        System.out.print(end);
-        
+
     }
+            return search;
+}
